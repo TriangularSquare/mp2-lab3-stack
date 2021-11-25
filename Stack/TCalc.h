@@ -16,8 +16,9 @@ public:
     TCalc(string _expr = "2 + 2");
     TCalc(const TCalc& tc); 
 
-    bool has_correct_brackets();
+    bool CorrectBrackets();
     void ToPostfix();
+    string GetPostfix();
     double Calc();
     double NewCalc();
 };

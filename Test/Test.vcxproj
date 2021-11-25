@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{c358cd3f-b397-4ba3-8cba-3c9bf48c58fb}</ProjectGuid>
-    <RootNamespace>StackTest</RootNamespace>
+    <ProjectGuid>{e4923999-51ea-4cb0-bc4e-4b9058afcca7}</ProjectGuid>
+    <RootNamespace>Test</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,13 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="gtest.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="gtest-all.cc" />
     <ClCompile Include="test_calc.cpp" />
     <ClCompile Include="test_main.cpp" />
     <ClCompile Include="test_stack.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="gtest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

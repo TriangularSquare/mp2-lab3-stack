@@ -31,7 +31,7 @@ TCalc::TCalc(const TCalc& tc)
     st_d = tc.st_d;
 }
 
-bool TCalc::has_correct_brackets() {
+bool TCalc::CorrectBrackets() {
     for (int i = 0; i < expr.length(); i++) {
         if (expr[i] == '(') {
             st_char.Push(expr[i]);
@@ -79,6 +79,11 @@ inline void TCalc::ToPostfix()
     if (pstfix[pstfix.size() - 1] == ' ') {
         pstfix.pop_back();
     }
+}
+
+string TCalc::GetPostfix()
+{
+    return pstfix;
 }
 
 double TCalc::Calc() {

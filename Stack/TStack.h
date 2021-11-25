@@ -1,4 +1,5 @@
 #pragma once
+using namespace std;
 
 template <class T>
 class TStack {
@@ -22,12 +23,14 @@ public:
 	bool operator!=(const TStack& ts) const;
 	TStack& operator=(const TStack& ts);
 
+	
 	friend ostream& operator<<(ostream& out, const TStack& ts) {
 		for (int i = 0; i <= ts.pos; i++) {
 			out << ts.arr[i] << ' ';
 		}
 		return out;
 	}
+	
 };
 
 template <class T>
@@ -110,7 +113,7 @@ inline bool TStack<T>::operator==(const TStack& ts) const
 	if ((size == ts.size) && (pos == ts.pos)) {
 		for (int i = 0; i < pos; i++) {
 			if (mas[i] != ts.mas[i])
-				flag == false;
+				flag = false;
 		}
 	}
 	else {
