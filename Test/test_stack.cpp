@@ -44,7 +44,7 @@ TEST(TStack, copied_stack_has_its_own_memory) {
 	copy.Clear();
 	for (int i = 0; i < 5; i++)
 	{
-		copy.Push(2 * i);
+		copy.Push(i + 1);
 	}
 
 	for (int i = 0; i < 5; i++) {

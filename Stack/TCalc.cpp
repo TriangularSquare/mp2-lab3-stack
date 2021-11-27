@@ -18,7 +18,7 @@ inline int TCalc::prior(char op)
     }
 }
 
-TCalc::TCalc(string _expr)
+TCalc::TCalc(std::string _expr)
 {
     expr = _expr;
 }
@@ -48,38 +48,57 @@ bool TCalc::CorrectBrackets() {
     return st_char.IsEmpty();
 }
 
-inline void TCalc::ToPostfix()
+void TCalc::ToPostfix()
 {
-    std::string infix = "(" + expr + ")";
+    string infix = "(" + expr + ")";
     pstfix = "";
     st_char.Clear();
-    for (int i = 0; i < infix.size(); i++) {
-        if (isdigit(infix[i])) {
-            pstfix += infix[i];
-            pstfix += ' ';
+
+    for (int i = 0; i < infix.size(); i++)
+    {
+        if (isdigit(infix[i]))
+        {
+            size_t idx;
+            double tmp = stod(&infix[i], &idx);
+
+            ostringstream ss;
+            ss << tmp;
+
+            pstfix += ss.str();
+            pstfix += " ";
+
+            i += idx - 1;
         }
-        else if (infix[i] == '(') {
+        else if (infix[i] == '(')
+        {
             st_char.Push(infix[i]);
         }
-        else if (infix[i] == ')') {
-            while (st_char.Top() != '(') {
+        else if (infix[i] == ')')
+        {
+            while (st_char.Top() != '(')
+            {
                 pstfix += st_char.Pop();
-                pstfix += ' ';
+                pstfix += " ";
             }
             st_char.Pop();
         }
-        else if ((infix[i] == '+') || (infix[i] == '-') || (infix[i] == '*') || (infix[i] == '/') || (infix[i] == '^')) {
-            while (prior(infix[i]) <= prior(st_char.Top())) {
+        else if ((infix[i] == '+') || (infix[i] == '-') || (infix[i] == '*') || (infix[i] == '/') || (infix[i] == '^'))
+        {
+            while (prior(infix[i]) <= prior(st_char.Top()))
+            {
                 pstfix += st_char.Pop();
-                pstfix += ' ';
+                pstfix += " ";
             }
             st_char.Push(infix[i]);
         }
     }
-    if (pstfix[pstfix.size() - 1] == ' ') {
+
+    if (!pstfix.empty())
         pstfix.pop_back();
-    }
+    
 }
+
+
 
 string TCalc::GetPostfix()
 {
@@ -87,27 +106,32 @@ string TCalc::GetPostfix()
 }
 
 double TCalc::Calc() {
-    for (int i = 0; i < pstfix.length(); i++) {
-        if (isdigit(pstfix[i])) {
-            st_d.Push(stod(&pstfix[i]));
+    if (pstfix.empty()) throw "ERROR";
+    for (int i = 0; i < pstfix.length(); i++)
+    {
+        if (pstfix[i] >= '0' && pstfix[i] <= '9') {
+
+            size_t idx;
+            double tmp = stod(&pstfix[i], &idx);
+            st_d.Push(tmp);
+
+            i += idx - 1;
         }
-        if (pstfix[i] == '+' || pstfix[i] == '-' || pstfix[i] == '*' || pstfix[i] == '/' || pstfix[i] == '^') {
+        else if (pstfix[i] == '+' || pstfix[i] == '-' ||
+            pstfix[i] == '*' || pstfix[i] == '/' || pstfix[i] == '^') {
             double second;
             double first;
 
             if (!(st_d.IsEmpty())) {
                 second = st_d.Pop();
             }
-            else {
-                throw "ERROR";
-            }
+            else throw "ERROR";
 
             if (!(st_d.IsEmpty())) {
                 first = st_d.Pop();
             }
-            else {
-                throw "ERROR";
-            }
+            else throw "ERROR";
+
 
             switch (pstfix[i]) {
             case '+':
@@ -128,6 +152,7 @@ double TCalc::Calc() {
             }
         }
     }
+
     if (!(st_d.IsEmpty())) {
         double result = st_d.Pop();
         if (!(st_d.IsEmpty())) {
@@ -143,21 +168,25 @@ double TCalc::Calc() {
 double TCalc::NewCalc()
 {
     string infix = "(" + expr + ")";
+
     st_char.Clear();
     st_d.Clear();
-    for (int i = 0; i < infix.size(); i++) {
-        if (infix[i] == '(') {
+
+    for (int i = 0; i < infix.length(); i++)
+    {
+        if (infix[i] == '(')
+        {
             st_char.Push(infix[i]);
         }
-
-        else if (isdigit(infix[i])) {
+        else if (isdigit(infix[i]))
+        {
             size_t idx;
             double tmp = stod(&infix[i], &idx);
             st_d.Push(tmp);
-            i = idx - 1;
+            i += idx - 1;
         }
-
-        else if ((infix[i] == '+') || (infix[i] == '-') || (infix[i] == '*') || (infix[i] == '/') || (infix[i] == '^')){
+        else if ((infix[i] == '+') || (infix[i] == '-') || (infix[i] == '*') || (infix[i] == '/') || (infix[i] == '^'))
+        {
             while (prior(infix[i]) <= prior(st_char.Top()))
             {
                 if (st_d.IsEmpty())
@@ -168,9 +197,10 @@ double TCalc::NewCalc()
                     throw "ERROR";
                 double first = st_d.Pop();
 
-                char oper = st_char.Pop();
+                char op = st_char.Pop();
 
-                switch (oper) {
+                switch (op)
+                {
                 case '+':
                     st_d.Push(first + second);
                     break;
@@ -190,7 +220,6 @@ double TCalc::NewCalc()
             }
             st_char.Push(infix[i]);
         }
-
         else if (infix[i] == ')')
         {
             while (st_char.Top() != '(')
@@ -226,13 +255,10 @@ double TCalc::NewCalc()
         }
     }
 
-    if (st_d.IsEmpty()) {
-        throw "ERROR";
-    }
+    if (st_d.IsEmpty()) throw "ERROR";
     double result = st_d.Pop();
 
-    if (!st_d.IsEmpty()) {
-        throw "ERROR";
-    }
+    if (!(st_d.IsEmpty())) throw "ERROR";
+
     return result;
 }

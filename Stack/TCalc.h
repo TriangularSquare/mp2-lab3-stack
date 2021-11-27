@@ -1,7 +1,10 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <cmath>
+#include <sstream>
 #include "TStack.h"
+
 using namespace std;
 
 class TCalc {
@@ -13,7 +16,7 @@ private:
 
     int prior(char op);
 public:
-    TCalc(string _expr = "2 + 2");
+    TCalc(std::string _expr = "2 + 2");
     TCalc(const TCalc& tc); 
 
     bool CorrectBrackets();

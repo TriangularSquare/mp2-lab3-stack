@@ -1,11 +1,9 @@
-#include "..\Stack\TCalc.h"
 #include "gtest.h"
-
+#include "..\Stack\TCalc.h"
 
 TEST(TCalc, can_create_calculator) {
-	ASSERT_NO_THROW(TCalc c);
+	ASSERT_NO_THROW(TCalc tc);
 }
-
 
 TEST(TCalc, can_check_brackets) {
 	string expr = "(1 + 1)";
@@ -39,7 +37,7 @@ TEST(TCalc, can_convert_to_postfix) {
 TEST(TCalc, can_add) {
 	string expr = "5 + 4";
 	TCalc tc(expr);
-	
+
 	tc.ToPostfix();
 
 	EXPECT_EQ(tc.Calc(), 9);
@@ -93,5 +91,5 @@ TEST(TCalc, can_calculate_complex_expression) {
 	tc.ToPostfix();
 
 	EXPECT_EQ(tc.Calc(), -68);
-	EXPECT_EQ(tc.NewCalc(), -68); 
+	EXPECT_EQ(tc.NewCalc(), -68);
 }
