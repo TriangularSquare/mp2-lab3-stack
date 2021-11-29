@@ -118,11 +118,25 @@ namespace WinForm {
 	private: System::Void textBox1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
-		std::string infix;
-		infix = msclr::interop::marshal_as<std::string>(textBox1->Text);
-		TCalc tc(infix);
-		tc.ToPostfix();
-		label1->Text = Convert::ToString(tc.Calc());
+		std::string infix = msclr::interop::marshal_as<std::string>(textBox1->Text);
+		if (String::IsNullOrEmpty((textBox1->Text)->Trim())) {
+			label1->Text = "";
+			return;
+		}
+
+		TCalc calc(infix);
+		if (!calc.CorrectBrackets()) {
+			label1->Text = "Invalid expression!";
+			return;
+		}
+
+		try {
+			double result = calc.NewCalc();
+			label1->Text = Convert::ToString(result);
+		}
+		catch (...) {
+			label1->Text = "Invalid expression!";
+		}
 	}
     private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
