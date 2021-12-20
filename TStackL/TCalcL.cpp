@@ -1,4 +1,4 @@
-#include "TCalc.h"
+#include "TCalcL.h"
 #include <iostream>
 #include <string>
 #include <cmath>
@@ -6,7 +6,7 @@
 
 
 
-inline int TCalc::prior(char op)
+inline int TCalcL::prior(char op)
 {
     switch (op) {
     case '(': return 0;
@@ -18,12 +18,12 @@ inline int TCalc::prior(char op)
     }
 }
 
-TCalc::TCalc(std::string _expr)
+TCalcL::TCalcL(std::string _expr)
 {
     expr = _expr;
 }
 
-TCalc::TCalc(const TCalc& tc)
+TCalcL::TCalcL(const TCalcL& tc)
 {
     expr = tc.expr;
     pstfix = tc.pstfix;
@@ -31,7 +31,7 @@ TCalc::TCalc(const TCalc& tc)
     st_d = tc.st_d;
 }
 
-bool TCalc::CorrectBrackets() {
+bool TCalcL::CorrectBrackets() {
     for (int i = 0; i < expr.length(); i++) {
         if (expr[i] == '(') {
             st_char.Push(expr[i]);
@@ -48,7 +48,7 @@ bool TCalc::CorrectBrackets() {
     return st_char.IsEmpty();
 }
 
-void TCalc::ToPostfix()
+void TCalcL::ToPostfix()
 {
     string infix = "(" + expr + ")";
     pstfix = "";
@@ -90,12 +90,12 @@ void TCalc::ToPostfix()
 
 
 
-string TCalc::GetPostfix()
+string TCalcL::GetPostfix()
 {
     return pstfix;
 }
 
-double TCalc::Calc() {
+double TCalcL::Calc() {
     if (pstfix.empty()) throw "ERROR";
     for (int i = 0; i < pstfix.length(); i++)
     {
@@ -155,7 +155,7 @@ double TCalc::Calc() {
     }
 }
 
-double TCalc::NewCalc()
+double TCalcL::NewCalc()
 {
     string infix = "(" + expr + ")";
 
